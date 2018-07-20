@@ -1,0 +1,37 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks
+    RewriteEngine On
+</IfModule>
+
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+#<IfModule mod_rewrite.c>
+#    RewriteCond %{REQUEST_URI} ^/.*
+#    RewriteRule ^(.*)$ web/$1 [L]
+#
+#    RewriteCond %{REQUEST_URI} !^/web/
+#    RewriteCond %{REQUEST_FILENAME} !-f [OR]
+#    RewriteCond %{REQUEST_FILENAME} !-d
+#    RewriteRule ^.*$ web/index.php
+#</IfModule>
+<IfModule mod_rewrite.c>
+
+  RewriteBase /
+
+   RewriteRule ^$ /web/ [L]
+   RewriteRule ^(.*)$ /web/$1
+
+
+#RewriteCond %{HTTP_HOST} ^http\:(.*) [NC]
+#RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+#RewriteCond %{HTTPS} off
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+	ErrorDocument 404 /index.php
+</IfModule>
