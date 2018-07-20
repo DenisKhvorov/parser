@@ -7,6 +7,7 @@ use yii\web\Controller;
 use app\components\AccessRule;
 use yii\filters\AccessControl;
 use app\models\User;
+use app\models\OfficesModelSearch;
 use Yii;
 
 /**
@@ -39,13 +40,12 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-        $searchModel = new OfficesModel();
-
+        $searchModel = new OfficesModelSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel
         ]);
     }
 }

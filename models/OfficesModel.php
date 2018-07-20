@@ -87,8 +87,8 @@ class OfficesModel extends \yii\db\ActiveRecord
         }
 
         $query->andFilterWhere(['like', 'office_title', $this->office_title])
-            ->andFilterWhere(['like', 'office_price', $this->office_price])
-            ->andFilterWhere(['like', 'office_numbers', $this->office_numbers]);
+            ->andFilterWhere(['like', 'office_price', $this->office_price]);
+//            ->andFilterWhere(['like', 'office_numbers', $this->office_numbers]);
 
         return $dataProvider;
     }
