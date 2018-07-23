@@ -10,7 +10,13 @@ use yii\grid\GridView;
         'filterModel' => $searchModel,
         'columns' => [
             'office_title',
-            'office_price',
+//            'office_price',
+        [
+                'attribute'=>'office_price',
+                'value'=>function($model){
+                    return $model->price;
+                }
+        ],
             'office_numbers',
         ],
     ]); ?>

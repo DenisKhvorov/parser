@@ -19,7 +19,8 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "guzzlehttp/guzzle": "~6.0",
-        "electrolinux/phpquery": "^0.9.6"
+        "electrolinux/phpquery": "^0.9.6",
+        "codeception/codeception": "^2.4"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -28,7 +29,8 @@
 
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1",
-        "codeception/specify": "~0.4.3"
+        "codeception/specify": "~0.4.3",
+        "yiisoft/yii2-codeception": "^2.0"
     },
     "config": {
         "process-timeout": 1800,

@@ -15,6 +15,10 @@ use yii\data\ActiveDataProvider;
  */
 class OfficesModel extends \yii\db\ActiveRecord
 {
+    /**
+     * @var array for validated array
+     */
+    public $dataForInsert = [];
 
 
     public static function tableName()
@@ -27,8 +31,9 @@ class OfficesModel extends \yii\db\ActiveRecord
     {
         return [
             [['office_title', 'office_price', 'office_numbers'], 'required'],
-            [['office_title', 'office_price', 'office_numbers'], 'string', 'max' => 255],
-            ['office_title','unique','targetClass'=>'app\models\OfficesModel'],
+            [['office_title', 'office_price', 'office_numbers'], 'trim'],
+            [['office_title', 'office_numbers', 'office_price'], 'string', 'max' => 255],
+            ['office_title', 'unique', 'targetClass' => 'app\models\OfficesModel'],
         ];
     }
 
@@ -42,54 +47,27 @@ class OfficesModel extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function validateArray($result){
-        $data = [];
-        $k = 0;
-        foreach ($result as $val){
-            $office = new OfficesModel();
-            $office->office_title = $val['title'];
-            $office->office_price = $val['price'];
-            $office->office_numbers = $val['number'];
-            if($office->validate()){
-                $data[$k] = ['title' => $office->office_title,
-                    'price' => $office->office_price ,
-                    'number' => $office->office_numbers
-                ];
-                $k++;
-            }
-        }
-        self::saveData($data);
-    }
-
-    public function saveData($data){
-        Yii::$app->db->createCommand()->batchInsert(
-            OfficesModel::tableName(),
-            ['office_title', 'office_price', 'office_numbers'],
-            $data
-        )->execute();
-    }
-
-    public function search($params)
+    public function beforeValidate()
     {
-        $query = self::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort'=>[
-                'defaultOrder'=>[
-                    'id'=>SORT_DESC
-                ]
-            ]
-        ]);
+        $this->office_price = preg_replace('/[^0-9]/', '', $this->office_price);
+        return parent::beforeValidate();
+    }
 
-        $this->load($params);
-        if (!$this->validate()) {
-            return $dataProvider;
+    public function saveData()
+    {
+        if ($this->dataForInsert) {
+            return Yii::$app->db->createCommand()->batchInsert(
+                OfficesModel::tableName(),
+                ['office_title', 'office_price', 'office_numbers'],
+                $this->dataForInsert
+            )->execute();
         }
+        return false;
+    }
 
-        $query->andFilterWhere(['like', 'office_title', $this->office_title])
-            ->andFilterWhere(['like', 'office_price', $this->office_price]);
-//            ->andFilterWhere(['like', 'office_numbers', $this->office_numbers]);
 
-        return $dataProvider;
+    public function getPrice()
+    {
+        return $this->office_price . ' руб/кв.м';
     }
 }
