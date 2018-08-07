@@ -10,13 +10,16 @@ use yii\console\Exception;
 
 class Parser
 {
-    // число успешно сохраненных записей
+
     public $totalSaved = 0;
 
-    // число не записанных записей, ощибки валидации
+
     public $totalErrors = 0;
 
-    // функция перебора страниц, функция прервется в момент когда не найдет следующей страницы и вернет колличество сохраненных записей, а так же число ошибок
+    /**
+     * @param int $page
+     * @return array
+     */
     public function parsePage($page = 0)
     {
         $content = self::getSiteContent($page);
@@ -27,7 +30,10 @@ class Parser
         }
     }
 
-    // функция для получения контента сайта, использовался Phpquery
+    /**
+     * @param $page
+     * @return \phpQueryObject
+     */
     public static function getSiteContent($page)
     {
         try {
@@ -38,7 +44,11 @@ class Parser
             var_dump($e->getMessage());
         }
     }
-    // функция собирает массив обработанных данных, после чего сохраняет его в базу данных
+
+    /**
+     * @param $content
+     * @return bool
+     */
     public function saveDataFromContent($content)
     {
         $office = new OfficesModel();

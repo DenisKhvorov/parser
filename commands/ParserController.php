@@ -10,8 +10,10 @@ use yii\helpers\Console;
 
 class ParserController extends Controller
 {
-    // yii migrate
-    // yii parser
+    /**
+     *  yii migrate;
+     *  yii parser;
+     */
     public function actionIndex()
     {
         list($result, $errors) = (new Parser())->parsePage();

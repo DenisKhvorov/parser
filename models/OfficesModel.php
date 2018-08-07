@@ -20,13 +20,17 @@ class OfficesModel extends \yii\db\ActiveRecord
      */
     public $dataForInsert = [];
 
-
+    /**
+     * @return string
+     */
     public static function tableName()
     {
         return 'offices';
     }
 
-
+    /**
+     * @return array
+     */
     public function rules()
     {
         return [
@@ -37,6 +41,9 @@ class OfficesModel extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return array
+     */
     public function attributeLabels()
     {
         return [
@@ -47,12 +54,18 @@ class OfficesModel extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return bool
+     */
     public function beforeValidate()
     {
         $this->office_price = preg_replace('/[^0-9]/', '', $this->office_price);
         return parent::beforeValidate();
     }
 
+    /**
+     * @return bool|int
+     */
     public function saveData()
     {
         if ($this->dataForInsert) {
@@ -65,7 +78,9 @@ class OfficesModel extends \yii\db\ActiveRecord
         return false;
     }
 
-
+    /**
+     * @return string
+     */
     public function getPrice()
     {
         return $this->office_price . ' руб/кв.м';
